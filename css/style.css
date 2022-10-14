@@ -1,0 +1,104 @@
+.card {
+    height: 100%;
+}
+
+.card a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-body .container .row .col {
+    padding: 0px;
+}
+
+.error {
+    width: 100%;
+}
+
+.historial,
+.col h5 {
+    color: gray;
+    text-decoration: none;
+}
+
+.col h1 {
+    color: rgb(13, 110, 253);
+}
+
+.col .card img {
+    border-bottom: 1px solid lightgray;
+}
+
+.prodimage {
+    border-right: 1px solid lightgray;
+}
+
+.especificaciones {
+    width: 50%;
+}
+
+.sin_stock {
+    opacity: 0.5;
+}
+
+#category_minus,
+#category_cant,
+#category_plus {
+    color: gray;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    text-decoration: none;
+    padding: 0px 8px;
+    color: black;
+}
+
+#category_minus {
+    border-left: 2px solid gray;
+    border-radius: 10px 0px 0px 10px;
+}
+
+#category_cant {
+    border-left: 2px solid gray;
+    border-right: 2px solid gray;
+}
+
+#category_plus {
+    border-right: 2px solid gray;
+    border-radius: 0px 10px 10px 0px;
+    padding: 0px 4px;
+}
+
+.admin_product {
+    width: 100%;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .8) !important;
+}
+
+.fill-available {
+    min-width: -webkit-fill-available;
+}
+
+.form-login-body {
+    display: flex;
+}
+.form-login {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+.form-centered {
+    display: block;
+    width: 50%;
+    margin: auto;
+    background-color: #0d6efd;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.fake-nav{
+    visibility: hidden;
+}

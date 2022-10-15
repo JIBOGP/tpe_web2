@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col prodimage">
             {if $product->imagen!=null}
-                <img src="{$product->imagen}" alt="...">
+                <img class="image-product" src="{$product->imagen}" alt="...">
             {/if}
         </div>
         <div class="col">

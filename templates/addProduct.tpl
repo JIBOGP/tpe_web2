@@ -21,8 +21,15 @@
     <div class="form-group my-2">
         <label>Especificaciones</label>
         {for $i=0 to ($category->estructura_especificaciones|@count -1)}
-            <input type="text" class="form-control" required="required" name="specs[{$i}]"
-                placeholder="{$category->estructura_especificaciones[$i]}">
+            <div class="row g-2 align-items-center">
+                <div class="col-auto">
+                    <span>{$category->estructura_especificaciones[$i]}:</span>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" required="required" name="specs[{$i}]"
+                        placeholder="{$category->estructura_especificaciones[$i]}">
+                </div>
+            </div>
         {/for}
     </div>
     <div class="form-group my-2">

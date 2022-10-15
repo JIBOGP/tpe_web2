@@ -102,3 +102,7 @@
 .fake-nav{
     visibility: hidden;
 }
+
+.image-product{
+    max-width: 100%;
+}

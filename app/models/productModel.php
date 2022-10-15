@@ -9,6 +9,7 @@ class ProductModel
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=tpe_web2;charset=utf8', 'root', '');
     }
 
+    //Retorna todos los productos (con stock primero y sin stock al final)
     public function getAllProducts()
     {
         //productos con stock
@@ -20,51 +21,54 @@ class ProductModel
         $query->execute();
         $productos_sin_stock = $query->fetchAll(PDO::FETCH_OBJ);
 
-        //Retorno los productos con stock y luego los productos sin stock
+        //Retorno los productos con stock y sin stock
         return array_merge($productos_con_stock, $productos_sin_stock);
     }
 
-    public function getFilteredProducts($id)
+    //Retorna todos los productos filtrados junto con la categoria (con stock primero y sin stock al final)
+    public function getFilteredProducts($name)
     {
         //productos filtrados con stock
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE stock>0 AND categoria_fk = ?");
-        $query->execute([$id]);
+        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id_categoria WHERE stock>0 AND categoria = ?");
+        $query->execute([$name]);
         $productos_con_stock = $query->fetchAll(PDO::FETCH_OBJ);
         //productos filtrados sin stock
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE stock=0 AND categoria_fk = ?");
-        $query->execute([$id]);
+        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id_categoria WHERE stock<=0 AND categoria = ?");
+        $query->execute([$name]);
         $productos_sin_stock = $query->fetchAll(PDO::FETCH_OBJ);
 
-        //Retorno los productos filtrados con stock y luego los productos filtrados sin stock
+        //Retorno los productos filtrados con stock y los productos filtrados sin stock
         return array_merge($productos_con_stock, $productos_sin_stock);
     }
-
+    
+    //Retorna los datos de un producto especifico junto con la categoria
     public function getProduct($id)
     {
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE A.id = ?");
+        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id_categoria WHERE id_producto = ?");
         $query->execute([$id]);
         $producto = $query->fetch(PDO::FETCH_OBJ);
         return $producto;
     }
 
+    //Retorna el stock de un producto especifico
     public function stockProducto($id)
     {
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id = ?");
+        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id_producto = ?");
         $query->execute([$id]);
         $cant_stock = $query->fetch(PDO::FETCH_OBJ);
         return $cant_stock->stock;
     }
 
+    //Vende un producto
     public function venderProducto($id)
     {
-        $query = $this->db->prepare("UPDATE `lista_productos` SET stock = stock-1 WHERE id = ?");
+        $query = $this->db->prepare("UPDATE `lista_productos` SET stock = stock-1 WHERE id_producto = ?");
         $query->execute([$id]);
     }
 
+    //Agregar producto con su imagen
     public function insertProduct($name, $category, $specs, $image = null, $price, $stock)
     {
-        $specs = serialize($specs);
-
         $pathImg = null;
         if ($image) $pathImg = $this->uploadImage($image);
 
@@ -74,6 +78,7 @@ class ProductModel
         return $this->db->lastInsertId();
     }
 
+    //Subir imagen
     private function uploadImage($image)
     {
         $target = 'app/views/images/' . uniqid() . '.jpg';
@@ -81,44 +86,48 @@ class ProductModel
         return $target;
     }
 
+    //Eliminar imagen
     public function deleteImage($id)
     {
         //Eliminar Imagen
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id = ?");
+        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id_producto = ?");
         $query->execute([$id]);
         $producto = $query->fetch(PDO::FETCH_OBJ);
         if ($producto->imagen) unlink($producto->imagen);
     }
 
+    //Eliminar Producto
     public function deleteProductById($id)
     {
         //Eliminar Imagen referente al producto
         $this->deleteImage($id);
         //Eliminar producto
-        $query = $this->db->prepare('DELETE FROM `lista_productos` WHERE id = ?');
+        $query = $this->db->prepare('DELETE FROM `lista_productos` WHERE id_producto = ?');
         $query->execute([$id]);
     }
 
+    //Eliminar todos los productos de una categoria
     public function deleteAllProductByCategory($category)
     {
         $arrProduct = $this->getFilteredProducts($category);
         foreach ($arrProduct as $key => $product) {
-            $this->deleteProductById($product->id);
+            $this->deleteProductById($product->id_producto);
         }
     }
 
+    //Editar producto
     public function updateProduct($id, $name, $specs, $image, $price, $stock)
     {
         $specs = serialize($specs);
         $pathImg = null;
         if ($image) $pathImg = $this->uploadImage($image);
-        echo($image);
+        echo ($image);
         if ($pathImg != null) {
             $this->deleteImage($id);
-            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, imagen=?, stock=?, precio=?, especificaciones=? WHERE id = ?");
+            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, imagen=?, stock=?, precio=?, especificaciones=? WHERE id_producto = ?");
             $query->execute([$name, $pathImg, $stock, $price, $specs, $id]);
         } else {
-            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, stock=?, precio=?, especificaciones=? WHERE id = ?");
+            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, stock=?, precio=?, especificaciones=? WHERE id_producto = ?");
             $query->execute([$name, $stock, $price, $specs, $id]);
         }
     }

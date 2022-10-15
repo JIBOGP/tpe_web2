@@ -26,15 +26,15 @@
                 {foreach from=$categorias item=$categoria}
                   <li class="nav-item">
                     <div class="btn-group fill-available">
-                      <a class="dropdown-item {if $categoria->id==$selected}bg-primary text-white{/if}"
-                        href="home/{$categoria->id}">
+                      <a class="dropdown-item {if $categoria->categoria|lower==$selected|lower}bg-primary text-white{/if}"
+                        href="home/{$categoria->categoria}">
                         {$categoria->categoria}
                       </a>
                       {if isset($smarty.session.ID_USER)}
-                        <a class="dropdown-item bg-warning text-white" href="editcategory/{$categoria->id}">
+                        <a class="dropdown-item bg-warning text-white" href="editcategoryform/{$categoria->categoria}">
                           Editar
                         </a>
-                        <a class="dropdown-item bg-danger text-white" href="delcategory/{$categoria->id}">
+                        <a class="dropdown-item bg-danger text-white" href="delcategory/{$categoria->id_categoria}">
                           Eliminar
                         </a>
                       {/if}

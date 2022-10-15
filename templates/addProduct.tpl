@@ -8,7 +8,7 @@
     <div class="form-group my-2">
         <label>Categoria</label>
         <select class="form-select" name="category" readonly>
-            <option value={$category->id}>
+            <option value={$category->id_categoria}>
                 {$category->categoria}
                 ({foreach from=$category->estructura_especificaciones item=$esp}
                     {if !$esp@last}{$esp},

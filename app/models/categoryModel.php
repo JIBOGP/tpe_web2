@@ -9,13 +9,16 @@ class CategoryModel
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=tpe_web2;charset=utf8', 'root', '');
     }
 
+    //Retorna la cantidad de categorias
     public function categoryCant()
     {
-        $query = $this->db->prepare(" SELECT COUNT(id) AS cantOfCategories FROM `categorias`;");
+        $query = $this->db->prepare(" SELECT COUNT(id_categoria) AS cantOfCategories FROM `categorias`;");
         $query->execute();
         $cant = $query->fetch(PDO::FETCH_OBJ);
         return $cant->cantOfCategories;
     }
+
+    //Retorna todas las categorias
     public function getCategories()
     {
         $query = $this->db->prepare("SELECT * FROM `categorias`");
@@ -27,28 +30,36 @@ class CategoryModel
         return $categorias;
     }
 
-    public function getCategoryByid($id)
+    //Retorna los datos de una categoria por su nombre
+    public function getCategoryByName($name)
     {
-        $query = $this->db->prepare("SELECT * FROM `categorias` WHERE id = ?");
-        $query->execute([$id]);
+        $query = $this->db->prepare("SELECT * FROM `categorias` WHERE categoria = ?");
+        $query->execute([$name]);
         $categoria = $query->fetch(PDO::FETCH_OBJ);
-        $categoria->estructura_especificaciones = unserialize($categoria->estructura_especificaciones);
+        if (!empty($categoria)) {
+            $categoria->estructura_especificaciones = unserialize($categoria->estructura_especificaciones);
+        }
         return $categoria;
     }
 
-    public function insertCategory($categoria, $especificaciones)
+    //Agregar categoria
+    public function insertCategory($categoria, $esp)
     {
-        $esp_result = serialize($especificaciones);
         $query = $this->db->prepare("INSERT INTO `categorias` (categoria, estructura_especificaciones) VALUES (?, ?)");
-        $query->execute([$categoria, $esp_result]);
-
-        return $this->db->lastInsertId();
+        $query->execute([$categoria, serialize($esp)]);
     }
 
+    //Eliminar categoria
     public function deleteProductById($id)
     {
-        //Eliminar categoria
-        $query = $this->db->prepare('DELETE FROM `categorias` WHERE id = ?');
+        $query = $this->db->prepare('DELETE FROM `categorias` WHERE id_categoria = ?');
         $query->execute([$id]);
+    }
+
+    //Editar categoria
+    public function updateCategory($id, $name, $esp)
+    {
+        $query = $this->db->prepare("UPDATE `categorias` SET categoria=?, estructura_especificaciones=? WHERE id_categoria = ?");
+        $query->execute([$name, $esp, $id]);
     }
 }

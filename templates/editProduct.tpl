@@ -9,8 +9,8 @@
         <div class="form-group my-2">
             <label>Especificaciones</label>
             {for $i=0 to ($esp_cant -1)}
-                <input type="text" class="form-control" required="required" name="specs[{$i}]" placeholder="{$esp[$i]}"
-                    value="{$esp_data[$i]}">
+                <input type="text" class="form-control" name="specs[{$i}]" placeholder="{$esp[$i]}"
+                    {if isset($esp_data[$i])} value="{$esp_data[$i]}">{/if}
             {/for}
         </div>
     </div>

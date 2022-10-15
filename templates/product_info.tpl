@@ -15,7 +15,7 @@
 
             <div>
                 <a class="historial" href="home">Home></a>
-                <a class="historial" href="home/{$product->categoria_fk}">{$product->categoria}</a>
+                <a class="historial" href="home/{$product->categoria}">{$product->categoria}</a>
             </div>
             <h2>$ {$product->precio|number_format:2:",":"."}</h2>
             {if $product->stock>0}

@@ -80,7 +80,7 @@ class ProductController
         if (!empty($_POST) && !empty($_POST['name'])) {
             $name = $_POST['name'];
             //*1 Saber los datos de la categoria seleccionada
-            $category = $this->CategoryModel->getCategoryByid($_POST['category']);
+            $category = $this->CategoryModel->getCategoryByname($_POST['category']);
             if ($this->CategoryModel->categoryCant() > 0 && !empty($category)) {
                 $this->productView->formulario($category, $name, $error);
             } else {
@@ -102,12 +102,12 @@ class ProductController
             $category = $_POST['category'];
 
             $specs = $_POST['specs'];
-            $specs = $this->sanitize_array($specs);
+            $specs = $this->authHelper->sanitize_array($specs);
 
             $price = $_POST['price'];
             $stock = $_POST['stock'];
 
-            if (!$this->array_elemen_empty($specs)) {
+            if (!$this->authHelper->array_elemen_empty($specs)) {
                 try {
                     if (
                         ($_FILES['imagen']['type'] == "image/jpg" ||
@@ -115,7 +115,7 @@ class ProductController
                             $_FILES['imagen']['type'] == "image/png"
                         )
                     ) {
-                        $this->ProductModel->insertProduct($name, $category, $specs, $_FILES['imagen']['tmp_name'], $price, $stock);
+                        $this->ProductModel->insertProduct($name, $category, serialize($specs), $_FILES['imagen']['tmp_name'], $price, $stock);
                         header("Location: " . BASE_URL . "home");
                     } else {
                         $this->addProductForm("Formato de imagen invalido");
@@ -164,14 +164,14 @@ class ProductController
             $name = htmlspecialchars($_POST['name']);
 
             $specs = $_POST['specs'];
-            $specs = $this->sanitize_array($specs);
+            $specs = $this->authHelper->sanitize_array($specs);
 
             $price = abs($_POST['price']);
             $stock = abs($_POST['stock']);
 
             if (
                 (!empty($name)) &&
-                (!empty($specs) && !($this->array_elemen_empty($specs))) &&
+                (!empty($specs)) &&
                 (!empty($price) && is_numeric($price)) &&
                 (!empty($stock) && is_numeric($stock))
             ) {
@@ -190,25 +190,5 @@ class ProductController
             }
         }
         header("Location: " . BASE_URL . "verproducto/$id");
-    }
-
-
-    private function array_elemen_empty($array)
-    {
-        $bol = false;
-        for ($i = 0; $i < count($array); $i++) {
-            if (empty($array[$i])) {
-                $bol = true;
-                break;
-            }
-        }
-        return $bol;
-    }
-    private function sanitize_array($array)
-    {
-        for ($i = 0; $i < count($array); $i++) {
-            $newarray[$i] = htmlspecialchars($array[$i]);
-        }
-        return $newarray;
     }
 }

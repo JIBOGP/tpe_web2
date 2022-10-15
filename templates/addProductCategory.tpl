@@ -8,7 +8,7 @@
         <label>Categoria</label>
         <select class="form-select" name="category">
             {foreach from=$categorias item=$categoria}
-                <option value={$categoria->id}>
+                <option value={$categoria->categoria}>
                     {$categoria->categoria}
                     ({foreach from=$categoria->estructura_especificaciones item=$esp}
                         {if !$esp@last}{$esp},
@@ -19,9 +19,6 @@
             {/foreach}
         </select>
     </div>
-    {*{if $error!=""}
-        <p class="bg-danger text-white">{$error}</p>
-    {/if}*}
     <button type="submit" class="btn btn-primary mt-2">Siguiente</button>
     <a href='home' class="btn btn-danger mt-2">Salir</a>
 </form>

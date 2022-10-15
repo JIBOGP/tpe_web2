@@ -54,6 +54,14 @@ switch ($params[0]) {
         $productController->deleteAllProduct($id);
         $categoryControler->deleteCategory($id);
         break;
+    case "editcategoryform":
+        $categoryControler->showHead();
+        $categoryControler->editCategoryForm($params[1]);
+        break;
+    case 'updatecategory':
+        $id = $params[1];
+        $categoryControler->updateCategory($id);
+        break;
     case 'verproducto':
         $categoryControler->showHead();
         $categoryControler->showHeader();
@@ -66,9 +74,9 @@ switch ($params[0]) {
     case 'vender':
         if (isset($params[1])) {
             $productController->vender($params[1]);
-        }/* else {
+        } else {
             header("Location: " . BASE_URL . "home");
-        }*/
+        }
         break;
     case 'seleccionar_categoria':
         $categoryControler->showHead();

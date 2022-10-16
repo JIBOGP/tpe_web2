@@ -3,6 +3,7 @@
 require_once './app/controllers/productController.php';
 require_once './app/controllers/categoryController.php';
 require_once './app/controllers/loginController.php';
+require_once './app/views/error_404.php';
 
 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
@@ -104,9 +105,7 @@ switch ($params[0]) {
     default:
         $categoryControler->showHead();
         $categoryControler->showHeader();
-        echo "<img src='app/views/images_view/error_404.jpg' alt=''> </main>
-        <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous'></script>
-        </body>
-        </html>";
+        $viewError = new Error404();
+        $viewError->showError();
         break;
 }

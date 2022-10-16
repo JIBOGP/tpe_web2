@@ -1,5 +1,6 @@
 <?php
 include_once './app/models/categoryModel.php';
+include_once './app/models/productModel.php';
 include_once './app/views/category/header.php';
 include_once './app/views/category/categoriaView.php';
 include_once('./app/helpers/authHelper.php');
@@ -13,8 +14,6 @@ class CategoryControler
     private $viewheader;
     private $CategoryView;
     private $authHelper;
-
-
 
     public function __construct()
     {
@@ -74,7 +73,7 @@ class CategoryControler
     public function deleteCategory($id)
     {
         $this->authHelper->checkLoggedIn("home/$id");
-        $this->CategoryModel->deleteProductById($id);
+        $this->CategoryModel->deleteCategoryByName($id);
         header("Location: " . BASE_URL . "home");
     }
     public function editCategoryForm($name)

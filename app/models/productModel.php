@@ -29,11 +29,11 @@ class ProductModel
     public function getFilteredProducts($name)
     {
         //productos filtrados con stock
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id_categoria WHERE stock>0 AND categoria = ?");
+        $query = $this->db->prepare("SELECT A.id,categoria_fk, nombre, imagen, stock, precio, especificaciones,categoria,estructura_especificaciones FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE stock>0 AND categoria = ?");
         $query->execute([$name]);
         $productos_con_stock = $query->fetchAll(PDO::FETCH_OBJ);
         //productos filtrados sin stock
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id_categoria WHERE stock<=0 AND categoria = ?");
+        $query = $this->db->prepare("SELECT A.id,categoria_fk, nombre, imagen, stock, precio, especificaciones,categoria,estructura_especificaciones FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE stock<=0 AND categoria = ?");
         $query->execute([$name]);
         $productos_sin_stock = $query->fetchAll(PDO::FETCH_OBJ);
 
@@ -44,7 +44,7 @@ class ProductModel
     //Retorna los datos de un producto especifico junto con la categoria
     public function getProduct($id)
     {
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id_categoria WHERE id_producto = ?");
+        $query = $this->db->prepare("SELECT A.id,categoria_fk, nombre, imagen, stock, precio, especificaciones,categoria,estructura_especificaciones  FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE A.id = ?");
         $query->execute([$id]);
         $producto = $query->fetch(PDO::FETCH_OBJ);
         return $producto;
@@ -53,7 +53,7 @@ class ProductModel
     //Retorna el stock de un producto especifico
     public function stockProducto($id)
     {
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id_producto = ?");
+        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id = ?");
         $query->execute([$id]);
         $cant_stock = $query->fetch(PDO::FETCH_OBJ);
         return $cant_stock->stock;
@@ -62,7 +62,7 @@ class ProductModel
     //Vende un producto
     public function venderProducto($id)
     {
-        $query = $this->db->prepare("UPDATE `lista_productos` SET stock = stock-1 WHERE id_producto = ?");
+        $query = $this->db->prepare("UPDATE `lista_productos` SET stock = stock-1 WHERE id = ?");
         $query->execute([$id]);
     }
 
@@ -90,10 +90,10 @@ class ProductModel
     public function deleteImage($id)
     {
         //Eliminar Imagen
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id_producto = ?");
+        $query = $this->db->prepare("SELECT imagen FROM `lista_productos` WHERE id = ?");
         $query->execute([$id]);
         $producto = $query->fetch(PDO::FETCH_OBJ);
-        if ($producto->imagen) unlink($producto->imagen);
+        if (file_exists($producto->imagen)) {unlink($producto->imagen);}
     }
 
     //Eliminar Producto
@@ -102,16 +102,17 @@ class ProductModel
         //Eliminar Imagen referente al producto
         $this->deleteImage($id);
         //Eliminar producto
-        $query = $this->db->prepare('DELETE FROM `lista_productos` WHERE id_producto = ?');
+        $query = $this->db->prepare('DELETE FROM `lista_productos` WHERE id = ?');
         $query->execute([$id]);
     }
 
     //Eliminar todos los productos de una categoria
-    public function deleteAllProductByCategory($category)
+    public function deleteAllProduct($name_category)
     {
-        $arrProduct = $this->getFilteredProducts($category);
-        foreach ($arrProduct as $key => $product) {
-            $this->deleteProductById($product->id_producto);
+        $arrProduct = $this->getFilteredProducts($name_category);
+        foreach ($arrProduct as $product) {
+            var_dump($product->id);
+            $this->deleteProductById($product->id);
         }
     }
 
@@ -124,10 +125,10 @@ class ProductModel
         echo ($image);
         if ($pathImg != null) {
             $this->deleteImage($id);
-            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, imagen=?, stock=?, precio=?, especificaciones=? WHERE id_producto = ?");
+            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, imagen=?, stock=?, precio=?, especificaciones=? WHERE id = ?");
             $query->execute([$name, $pathImg, $stock, $price, $specs, $id]);
         } else {
-            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, stock=?, precio=?, especificaciones=? WHERE id_producto = ?");
+            $query = $this->db->prepare("UPDATE `lista_productos` SET nombre=?, stock=?, precio=?, especificaciones=? WHERE id = ?");
             $query->execute([$name, $stock, $price, $specs, $id]);
         }
     }

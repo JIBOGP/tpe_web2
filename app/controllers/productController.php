@@ -80,7 +80,7 @@ class ProductController
         if (!empty($_POST) && !empty($_POST['name'])) {
             $name = $_POST['name'];
             //*1 Saber los datos de la categoria seleccionada
-            $category = $this->CategoryModel->getCategoryByname($_POST['category']);
+            $category = $this->CategoryModel->getCategoryByName($_POST['category']);
             if ($this->CategoryModel->categoryCant() > 0 && !empty($category)) {
                 $this->productView->formulario($category, $name, $error);
             } else {
@@ -138,10 +138,11 @@ class ProductController
         header("Location: " . BASE_URL . "home");
     }
 
-    public function deleteAllProduct($category)
+    //Eliminado de todos los productos de una categoria
+    public function deleteAllProduct($name_category)
     {
         $this->authHelper->checkLoggedIn("home");
-        $this->ProductModel->deleteAllProductByCategory($category);
+        $this->ProductModel->deleteAllProduct($name_category);
     }
 
     public function editProduct($id) //No se puede cambiar la categoria del producto

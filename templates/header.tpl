@@ -34,7 +34,7 @@
                         <a class="dropdown-item bg-warning text-white" href="editcategoryform/{$categoria->categoria}">
                           Editar
                         </a>
-                        <a class="dropdown-item bg-danger text-white" href="delcategory/{$categoria->id_categoria}">
+                        <a class="dropdown-item bg-danger text-white" href="delcategory/{$categoria->categoria}">
                           Eliminar
                         </a>
                       {/if}

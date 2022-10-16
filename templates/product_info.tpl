@@ -1,8 +1,10 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col prodimage">
-            {if $product->imagen!=null}
+            {if file_exists($product->imagen)}
                 <img class="image-product" src="{$product->imagen}" alt="...">
+            {else}
+                <img src="app/views/Image_not_found.jpg" class="card-img-top p-2" alt="{$product->nombre}">
             {/if}
         </div>
         <div class="col">

@@ -50,9 +50,8 @@ switch ($params[0]) {
         $categoryControler->addCategory();
         break;
     case 'delcategory':
-        $id = $params[1];
-        $productController->deleteAllProduct($id);
-        $categoryControler->deleteCategory($id);
+        $productController->deleteAllProduct($params[1]);
+        $categoryControler->deleteCategory($params[1]);
         break;
     case "editcategoryform":
         $categoryControler->showHead();
@@ -64,7 +63,6 @@ switch ($params[0]) {
         break;
     case 'verproducto':
         $categoryControler->showHead();
-        $categoryControler->showHeader();
         if (isset($params[1])) {
             $productController->seeProduct($params[1]);
         } else {
@@ -100,8 +98,7 @@ switch ($params[0]) {
         $productController->updateProduct($id);
         break;
     case 'delproduct':
-        $id = $params[1];
-        $productController->deleteProduct($id);
+        $productController->deleteProduct($params[1]);
         break;
     default:
         $categoryControler->showHead();

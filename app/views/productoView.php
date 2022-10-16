@@ -9,6 +9,7 @@ class Product
     {
         $this->smarty = new Smarty();
     }
+
     //Mostrar todos los productos de un arreglo
     function showProducts($productos)
     {

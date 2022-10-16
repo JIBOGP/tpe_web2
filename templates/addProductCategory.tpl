@@ -8,11 +8,13 @@
         <label>Categoria</label>
         <select class="form-select" name="category">
             {foreach from=$categorias item=$categoria}
-                <option value={$categoria->categoria}>
+                <option value="{$categoria->categoria}">
                     {$categoria->categoria}
                     ({foreach from=$categoria->estructura_especificaciones item=$esp}
-                        {if !$esp@last}{$esp},
-                        {else}{$esp}
+                        {if !$esp@last}
+                            {$esp},
+                        {else}
+                            {$esp}
                         {/if}
                     {/foreach})
                 </option>

@@ -12,7 +12,7 @@ class CategoryModel
     //Retorna la cantidad de categorias
     public function categoryCant()
     {
-        $query = $this->db->prepare(" SELECT COUNT(id_categoria) AS cantOfCategories FROM `categorias`;");
+        $query = $this->db->prepare(" SELECT COUNT(id) AS cantOfCategories FROM `categorias`;");
         $query->execute();
         $cant = $query->fetch(PDO::FETCH_OBJ);
         return $cant->cantOfCategories;
@@ -50,16 +50,16 @@ class CategoryModel
     }
 
     //Eliminar categoria
-    public function deleteProductById($id)
+    public function deleteCategoryByName($name)
     {
-        $query = $this->db->prepare('DELETE FROM `categorias` WHERE id_categoria = ?');
-        $query->execute([$id]);
+        $query = $this->db->prepare('DELETE FROM `categorias` WHERE categoria = ?');
+        $query->execute([$name]);
     }
 
     //Editar categoria
     public function updateCategory($id, $name, $esp)
     {
-        $query = $this->db->prepare("UPDATE `categorias` SET categoria=?, estructura_especificaciones=? WHERE id_categoria = ?");
+        $query = $this->db->prepare("UPDATE `categorias` SET categoria=?, estructura_especificaciones=? WHERE id = ?");
         $query->execute([$name, $esp, $id]);
     }
 }

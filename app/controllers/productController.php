@@ -2,7 +2,7 @@
 include_once './app/models/productModel.php';
 include_once './app/models/categoryModel.php';
 include_once './app/views/productoView.php';
-include_once('./app/helpers/authHelper.php');
+include_once('./app/helpers/Helper.php');
 
 
 class ProductController
@@ -18,8 +18,11 @@ class ProductController
 
         $this->ProductModel = new ProductModel();
         $this->productView = new Product();
-        $this->authHelper = new AuthHelper();
+        $this->authHelper = new Helper();
 
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
     }
 
     //Lista de productos
@@ -45,20 +48,14 @@ class ProductController
     //Reducir stock
     public function vender($id)
     {
-        $cant_stock = $this->ProductModel->stockProducto($id);
+        $product = $this->ProductModel->getProduct($id);
+        $cant_stock = $product->stock;
         if ($cant_stock > 0) {
             $this->ProductModel->venderProducto($id);
-            $cant_stock = $this->ProductModel->stockProducto($id);
-            if ($cant_stock > 0) {
-                header("Location: " . BASE_URL . "verproducto/" . $id);
-            } else {
-                //header("Location: " . BASE_URL . "home");
-                header("Location: " . BASE_URL . "verproducto/" . $id);
-            }
-        } else {
-            //header("Location: " . BASE_URL . "home");
-            header("Location: " . BASE_URL . "verproducto/" . $id);
+            $cant_stock = $product->stock;
         }
+        header("Location: " . BASE_URL . "verproducto/" . str_replace(" ", "-", $product->nombre)
+            . "?id=" . $product->id);
     }
 
     //Formulario para seleccionar categoria
@@ -182,7 +179,7 @@ class ProductController
                         $_FILES['imagen']['type'] == "image/jpeg" ||
                         $_FILES['imagen']['type'] == "image/png"
                     ) {
-                        
+
                         $this->ProductModel->updateProduct($id, $name, $specs, $_FILES['imagen']['tmp_name'], $price, $stock);
                     }
                 } else {
@@ -190,6 +187,6 @@ class ProductController
                 }
             }
         }
-        header("Location: " . BASE_URL . "verproducto/$id");
+        header("Location: " . BASE_URL . "verproducto/" . str_replace(" ", "-", $_POST['name']) . "?id=" . $id);
     }
 }

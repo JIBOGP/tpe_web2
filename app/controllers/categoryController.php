@@ -3,7 +3,7 @@ include_once './app/models/categoryModel.php';
 include_once './app/models/productModel.php';
 include_once './app/views/category/header.php';
 include_once './app/views/category/categoriaView.php';
-include_once('./app/helpers/authHelper.php');
+include_once('./app/helpers/Helper.php');
 
 define('SPECIFICATION_LIMIT', 10); //Limite de especificaciones por categoria
 define('URL_SPECIFICATION_DEFAULT',  3); //Cantidad de especificaciones por categoria por defecto
@@ -20,7 +20,11 @@ class CategoryControler
         $this->CategoryModel = new CategoryModel();
         $this->viewheader = new Header();
         $this->CategoryView = new Category();
-        $this->authHelper = new AuthHelper();
+        $this->authHelper = new Helper();
+
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
     }
 
     public function showHead()
@@ -29,7 +33,6 @@ class CategoryControler
     }
     public function showHeader($selected = -1)
     {
-        session_start();
         $categorias = $this->CategoryModel->getCategories();
         $this->viewheader->showHeader($categorias, $selected);
     }

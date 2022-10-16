@@ -4,7 +4,7 @@
             {if file_exists($product->imagen)}
                 <img class="image-product" src="{$product->imagen}" alt="...">
             {else}
-                <img src="app/views/Image_not_found.jpg" class="card-img-top p-2" alt="{$product->nombre}">
+                <img src="app/views/images_view/Image_not_found.jpg" class="card-img-top p-2" alt="{$product->nombre}">
             {/if}
         </div>
         <div class="col">

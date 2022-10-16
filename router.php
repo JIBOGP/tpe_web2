@@ -1,4 +1,5 @@
 <?php
+
 require_once './app/controllers/productController.php';
 require_once './app/controllers/categoryController.php';
 require_once './app/controllers/loginController.php';
@@ -63,8 +64,8 @@ switch ($params[0]) {
         break;
     case 'verproducto':
         $categoryControler->showHead();
-        if (isset($params[1])) {
-            $productController->seeProduct($params[1]);
+        if (isset($params[1]) && isset($_GET["id"])) {
+            $productController->seeProduct($_GET["id"]);
         } else {
             header("Location: " . BASE_URL . "home");
         }
@@ -103,7 +104,7 @@ switch ($params[0]) {
     default:
         $categoryControler->showHead();
         $categoryControler->showHeader();
-        echo "Error 404: pagina no encontrada </main>
+        echo "<img src='app/views/images_view/error_404.jpg' alt=''> </main>
         <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous'></script>
         </body>
         </html>";

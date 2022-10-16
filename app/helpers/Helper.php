@@ -1,6 +1,6 @@
 <?php
 
-class AuthHelper
+class Helper
 {
     public function __construct()
     {
@@ -8,7 +8,7 @@ class AuthHelper
 
     public function checkLoggedIn($url)
     {
-        if (!isset($_SESSION)) {
+        if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
         }
         if (!isset($_SESSION['ID_USER'])) {

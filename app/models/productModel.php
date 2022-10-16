@@ -50,15 +50,6 @@ class ProductModel
         return $producto;
     }
 
-    //Retorna el stock de un producto especifico
-    public function stockProducto($id)
-    {
-        $query = $this->db->prepare("SELECT * FROM `lista_productos` WHERE id = ?");
-        $query->execute([$id]);
-        $cant_stock = $query->fetch(PDO::FETCH_OBJ);
-        return $cant_stock->stock;
-    }
-
     //Vende un producto
     public function venderProducto($id)
     {

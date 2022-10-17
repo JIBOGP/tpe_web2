@@ -2,6 +2,7 @@
 include_once './app/models/productModel.php';
 include_once './app/models/categoryModel.php';
 include_once './app/views/productoView.php';
+require_once './app/views/error_404.php';
 include_once('./app/helpers/Helper.php');
 
 
@@ -36,13 +37,14 @@ class ProductController
         $this->productView->showProducts($productos);
     }
     //Ver informacion de un producto
-    public function seeProduct($id)
+    public function seeProduct($id = -1)
     {
         $product = $this->ProductModel->getProduct($id);
         if ($product) {
             $this->productView->showProduct($product, $id);
         } else {
-            header("Location: " . BASE_URL . "home");
+            $viewError = new Error404();
+            $viewError->showError();
         }
     }
     //Reducir stock

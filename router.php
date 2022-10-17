@@ -65,10 +65,11 @@ switch ($params[0]) {
         break;
     case 'verproducto':
         $categoryControler->showHead();
-        if (isset($params[1]) && isset($_GET["id"])) {
+        $categoryControler->showHeader();
+        if (isset($_GET["id"])) {
             $productController->seeProduct($_GET["id"]);
-        } else {
-            header("Location: " . BASE_URL . "home");
+        }else {
+            $productController->seeProduct();
         }
         break;
     case 'vender':

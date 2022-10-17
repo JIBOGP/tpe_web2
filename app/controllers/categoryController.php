@@ -19,7 +19,7 @@ class CategoryControler
     {
         $this->CategoryModel = new CategoryModel();
         $this->viewheader = new Header();
-        $this->CategoryView = new Category();
+        $this->CategoryView = new CategoryView();
         $this->authHelper = new Helper();
 
         if (session_status() != PHP_SESSION_ACTIVE) {

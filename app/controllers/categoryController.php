@@ -37,6 +37,7 @@ class CategoryControler
         $this->viewheader->showHeader($categorias, $selected);
     }
 
+    //Formulario para agregar categoria
     public function addCategoryForm($cant_input)
     {
         $this->authHelper->checkLoggedIn("home");
@@ -53,6 +54,7 @@ class CategoryControler
         }
     }
 
+    //Agregar categoria
     public function addCategory()
     {
         $this->authHelper->checkLoggedIn("home");
@@ -73,12 +75,16 @@ class CategoryControler
 
         header("Location: " . BASE_URL . "home");
     }
+
+    //Eliminar categoria
     public function deleteCategory($id)
     {
         $this->authHelper->checkLoggedIn("home/$id");
         $this->CategoryModel->deleteCategoryByName($id);
         header("Location: " . BASE_URL . "home");
     }
+
+    //Formulario para editar categoria
     public function editCategoryForm($name)
     {
         $this->authHelper->checkLoggedIn("home");
@@ -103,6 +109,8 @@ class CategoryControler
             header("Location: " . BASE_URL . "home");
         }
     }
+
+    //Editar categoria
     public function updateCategory($id)
     {
         var_dump($_POST);

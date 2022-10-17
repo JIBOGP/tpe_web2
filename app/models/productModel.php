@@ -29,11 +29,11 @@ class ProductModel
     public function getFilteredProducts($name)
     {
         //productos filtrados con stock
-        $query = $this->db->prepare("SELECT A.id,categoria_fk, nombre, imagen, stock, precio, especificaciones,categoria,estructura_especificaciones FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE stock>0 AND categoria = ?");
+        $query = $this->db->prepare("SELECT A.id, nombre, imagen, stock, precio,categoria FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE stock>0 AND categoria = ?");
         $query->execute([$name]);
         $productos_con_stock = $query->fetchAll(PDO::FETCH_OBJ);
         //productos filtrados sin stock
-        $query = $this->db->prepare("SELECT A.id,categoria_fk, nombre, imagen, stock, precio, especificaciones,categoria,estructura_especificaciones FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE stock<=0 AND categoria = ?");
+        $query = $this->db->prepare("SELECT A.id, nombre, imagen, stock, precio,categoria FROM `lista_productos` A JOIN `categorias` B ON A.categoria_fk = B.id WHERE stock<=0 AND categoria = ?");
         $query->execute([$name]);
         $productos_sin_stock = $query->fetchAll(PDO::FETCH_OBJ);
 

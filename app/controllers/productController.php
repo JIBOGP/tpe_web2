@@ -104,25 +104,25 @@ class ProductController
             $price = $_POST['price'];
             $stock = $_POST['stock'];
 
-            if (!$this->authHelper->array_elemen_empty($specs)) {
-                try {
-                    if (
-                        ($_FILES['imagen']['type'] == "image/jpg" ||
-                            $_FILES['imagen']['type'] == "image/jpeg" ||
-                            $_FILES['imagen']['type'] == "image/png"
-                        )
-                    ) {
-                        $this->ProductModel->insertProduct($name, $category, serialize($specs), $_FILES['imagen']['tmp_name'], $price, $stock);
-                        header("Location: " . BASE_URL . "home");
-                    } else {
-                        $this->addProductForm("Formato de imagen invalido");
-                    }
-                } catch (Exception $e) {
-                    $this->addProductForm("Categoria no registrada");
+            //if (!$this->authHelper->array_elemen_empty($specs)) {
+            try {
+                if (
+                    ($_FILES['imagen']['type'] == "image/jpg" ||
+                        $_FILES['imagen']['type'] == "image/jpeg" ||
+                        $_FILES['imagen']['type'] == "image/png"
+                    )
+                ) {
+                    $this->ProductModel->insertProduct($name, $category, serialize($specs), $_FILES['imagen']['tmp_name'], $price, $stock);
+                    header("Location: " . BASE_URL . "home");
+                } else {
+                    $this->addProductForm("Formato de imagen invalido");
                 }
-            } else {
-                $this->addProductForm("Especificaciones incompletas");
+            } catch (Exception $e) {
+                $this->addProductForm("Categoria no registrada");
             }
+            /*} else {
+                $this->addProductForm("Especificaciones incompletas");
+            }*/
         } else {
             $this->addProductForm("Campos Incompletos");
         }

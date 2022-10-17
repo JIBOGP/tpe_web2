@@ -26,7 +26,7 @@
                     <span>{$category->estructura_especificaciones[$i]}:</span>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" required="required" name="specs[{$i}]"
+                    <input type="text" class="form-control" name="specs[{$i}]"
                         placeholder="{$category->estructura_especificaciones[$i]}">
                 </div>
             </div>

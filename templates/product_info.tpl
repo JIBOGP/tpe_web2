@@ -34,18 +34,16 @@
 <table class="table table-striped especificaciones">
     <tbody>
         {for $i=0 to $esp_cant-1}
-            <tr>
-                <td>
-                    {$esp[$i]}
-                </td>
-                <td>
-                    {if !empty($esp_data[$i])}
+            {if !empty($esp_data[$i])}
+                <tr>
+                    <td>
+                        {$esp[$i]}
+                    </td>
+                    <td>
                         {$esp_data[$i]}
-                    {else}
-                        -
-                    {/if}
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            {/if}
         {/for}
     </tbody>
 </table>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-10-2022 a las 03:18:54
+-- Tiempo de generación: 18-10-2022 a las 03:36:23
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -55,7 +55,7 @@ CREATE TABLE `lista_productos` (
   `nombre` varchar(255) NOT NULL,
   `imagen` varchar(63) DEFAULT NULL,
   `stock` int(11) NOT NULL,
-  `precio` int(11) NOT NULL,
+  `precio` double NOT NULL,
   `especificaciones` varchar(511) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -64,7 +64,7 @@ CREATE TABLE `lista_productos` (
 --
 
 INSERT INTO `lista_productos` (`id`, `categoria_fk`, `nombre`, `imagen`, `stock`, `precio`, `especificaciones`) VALUES
-(130, 1, 'Intel Core i7 12700K', 'app/views/images/634b82b109f07.jpg', 24, 111500, 'a:4:{i:0;s:2:\"12\";i:1;s:2:\"20\";i:2;s:8:\"2700 mhz\";i:3;s:8:\"5000 mhz\";}'),
+(130, 1, 'Intel Core i7 12700K', 'app/views/images/634b82b109f07.jpg', 24, 111502.56, 'a:4:{i:0;s:2:\"12\";i:1;s:2:\"20\";i:2;s:8:\"2700 mhz\";i:3;s:8:\"5000 mhz\";}'),
 (131, 1, 'Intel Core i7 12700KF', 'app/views/images/634b831974a41.jpg', 33, 104400, 'a:3:{i:0;s:2:\"12\";i:1;s:2:\"20\";i:2;s:8:\"2700 mhz\";}'),
 (136, 3, 'WD 2TB Black SN850X', 'app/views/images/634b83242933a.jpg', 56, 73500, 'a:4:{i:0;s:2:\"M2\";i:1;s:4:\"2 TB\";i:2;s:9:\"7300 mb/s\";i:3;s:9:\"6600 mb/s\";}'),
 (140, 2, 'MSI GeForce RTX 3090 24GB GDDR6X GAMING X TRIO', 'app/views/images/634c6b89d18a7.jpg', 126, 295000, 'a:3:{i:0;s:5:\"24 GB\";i:1;s:1:\"1\";i:2;s:1:\"3\";}'),

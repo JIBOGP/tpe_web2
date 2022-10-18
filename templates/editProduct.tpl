@@ -20,7 +20,7 @@
     </div>
     <div class="row my-2">
         <div class="col col-md-3">
-            <input type="number" class="form-control" value="{$product->precio}" required="required" name="price"
+            <input type="number" step="any" class="form-control" value="{$product->precio}" required="required" name="price"
                 placeholder="Precio">
         </div>
         <div class="col col-md-3">
